@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<script src="jquery-3.1.0.js""></script>
+		<script src="javascript.js""></script>
+		<style>
+
+			.subset{
+				font-size: 0.6em;
+				position: relative;
+				top: 3px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="nav">
+				<h1>Arithmetic Equation Solver</h1>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">What do you know?</div>
+				<div class="panel-body">
+					<div class="form-group"><input class="form-control" type="text" id="sequence" placeholder="Enter Sequence to Solve for - separate values by a comma"></div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" id="in-d" placeholder="What is D?">
+					</div>
+
+					<div class="form-group">
+						<label style="display: block">I know S<span class="subset" id="s-of-n-value-span">n</span>:</label>
+						<div>
+							<div class="col-sm-6"><input class="form-control" type="number" id="in-s-of-n" placeholder="What is n?"></div>
+							<div class="col-sm-6"><input class="form-control" type="number" id="in-s-of-n-value" placeholder="What does this value equal to?"></div>
+						</div>
+					</div>
+					<br><br>
+					<div class="form-group">
+						<label style="display: block">I know a<span class="subset" id="s-of-n-value-span">n</span>:</label>
+						<div>
+							<div class="col-sm-6"><input class="form-control" type="number" id="in-a-of-n" placeholder="What is n?"></div>
+							<div class="col-sm-6"><input class="form-control" type="number" id="in-a-of-n-value" placeholder="What does this value equal to?"></div>
+						</div>
+					</div>
+					<br><br>
+					<div class="form-group">
+						<label style="display: block">I know a<span class="subset" id="s-of-n-value-span">1</span>:</label>
+						<div>
+							<div class="col-sm-6"><input class="form-control" type="number" id="in-a-of-1-value" placeholder="What does a of 1 equal to?"></div>
+						</div>
+					</div>				
+					<br>
+					<hr/>
+
+					<div class="panel panel-info">
+						<div class="panel-heading">Confirmation</div>
+						<div class="panel-body">
+							<ul id="value-confirmation"></ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-warning">
+				<div class="panel-heading">Solve For</div>
+				<div class="panel-body">
+					<div class="form-group">
+						<select class="form-control" id="what-to-solve">
+							<option>Select what you want to solve for:</option>
+							<option value="a-of-n">a of n (find the nth number in a sequence)</option>
+							<option value="s-of-n">s of n (find the sum of the values in a sequences)</option>
+						</select>
+					</div>
+					<div class="form-group"><input id="n-to-find" class="form-control" placeholder="N value you want to find (ex: 39)" type="number"></div>
+					<button class="btn btn-warning btn-block equation" id="solve">Solve</button>
+				</div>
+			</div>
+
+			<div class="panel panel-info">
+				<div class="panel-heading">Steps</div>
+				<div class="panel-body">Coming Soon</div>
+			</div>
+
+			<div class="panel panel-success">
+				<div class="panel-heading">Solution</div>
+				<div class="panel-body" id="solution">
+					
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>
