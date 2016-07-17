@@ -38,12 +38,14 @@
 					<br><br>
 					<div class="form-group">
 						<label style="display: block">I know a<span class="subset" id="s-of-n-value-span">n</span>:</label>
-						<div>
-							<div class="col-sm-6"><input class="form-control" type="number" id="in-a-of-n" placeholder="What is n?"></div>
-							<div class="col-sm-6"><input class="form-control" type="number" id="in-a-of-n-value" placeholder="What does this value equal to?"></div>
-						</div>
+						<div><div class="a-of-n-wrapper">
+							<div class="col-sm-6"><input class="form-control in-a-of-n" type="number" placeholder="What is n?"></div>
+							<div class="col-sm-6"><input class="form-control in-a-of-n-value" type="number" placeholder="What does this value equal to?"></div>
+						</div></div>
+						<br><br>
+						<div class="text-right">
+							<button class="btn btn-xs btn-info" id="add-more-n">Add another a<span class="subset">n</span></button>
 					</div>
-					<br><br>
 					<div class="form-group">
 						<label style="display: block">I know a<span class="subset" id="s-of-n-value-span">1</span>:</label>
 						<div>
@@ -59,7 +61,7 @@
 							<ul id="value-confirmation"></ul>
 						</div>
 					</div>
-				</div>
+				</div></div>
 			</div>
 
 			<div class="panel panel-warning">

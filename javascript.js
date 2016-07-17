@@ -3,8 +3,10 @@ $(function() {
 		$in_d = $('#in-d'),
 		$in_s = $('#in-s-of-n'),
 		$in_s_val = $('#in-s-of-n-value'),
-		$in_a = $('#in-a-of-n'),
-		$in_a_val = $('#in-a-of-n-value'),
+		$in_a = $('.in-a-of-n'),
+		$in_a_val = $('.in-a-of-n-value'),
+		$a_wrapper = $('.a-of-n-wrapper'),
+		$add_more = $('#add-more-n'),
 		$in_a1_val = $('#in-a-of-1-value'),
 		$what_to_solve = $("#what-to-solve");
 		$n_to_find = $("#n-to-find"),
@@ -15,9 +17,10 @@ $(function() {
 	$in_d.on('change', function() { checkD(); })
 	$in_s.on('change', function() { checkSofN();})
 	$in_s_val.on('change', function() { checkSofN();})
-	$in_a.on('change', function() { checkAofN();})
-	$in_a_val.on('change', function() { checkAofN();})
+	$('.in-a-of-n').on('change', function() { checkAofN();})
+	$('.in-a-of-n-value').on('change', function() { checkAofN();})
 	$in_a1_val.on('change', function() { checkA1ofN();})
+	$add_more.on('click',function() { addMoreN(); })
 	$solve.on('click',function() { solve(); })
 
 	function solve() {
@@ -35,48 +38,73 @@ $(function() {
 		var n = $n_to_find.val()
 
 		if (a1_of_n)
-				a[a1_of_n[0]] = a1_of_n[1]
+			$.extend(a,a1_of_n)
 		if (a_of_n)
-			a[a_of_n[0]] = a_of_n[1]
+			$.extend(a,a_of_n)
 		if (s_of_n)
-			a[s_of_n[0]] = s_of_n[1]
+			s[s_of_n[0]] = s_of_n[1]
 
 		switch (solveFor) {
 			case 'a-of-n':
-				solveA(a,n,d);
+				solveA(a,s,n,d, true);
 				break;
 			case 's-of-n':
-				solveS(a,n,d);
+				solveS(a,s,n,d);
 				break;
 			default:
 				// do nothing
 		}
 	}
 
-	function solveA(a,n,d,sol=true){
+	function solveA(a,s,n,d,sol){
+		if (!d)
+			d = solveD(a,s)
 		a[n] = a[1] + (n - 1) * d
+
 		if(sol)
 			printSolution(a[n],n,'a')
 		return a[n]
 	}
 
-	function solveS(a,n,d) {
-		var s={}
-		a[n] = solveA(a,n,d,false)
+	function solveS(a,s,n,d) {
+		a[n] = solveA(a,s,n,d)
 		s[n] = (n * (a[1] + a[n])) / 2
 		printSolution(s[n],n,'s')
 		return s[n]
 	}
 
 	function printSolution(sol,n,variable) {
-		var print = '<div class="alert alert-success">';
-		print += variable
-		print += '<span class="subset">' + n + '</span>'
-		print += ' = ' + sol
+		$solution.html('')
+		if (typeof(sol) != NaN) {
+			var print = '<div class="alert alert-success">';
+			print += variable
+			print += '<span class="subset">' + n + '</span>'
+			print += ' = ' + sol
+		} else {
+			var print = '<div class="alert alert-danger">'
+			print += 'COULD NOT SOLVE. Insufficient Information.'
+		}
 
 		$solution.append(print);
+	}
 
+	function solveD(a,s) {
+		var nvals = []
 
+		a_keys = Object.keys(a)
+		s_keys = Object.keys(s)
+		$(a_keys).each(function(){
+			if(this.indexOf(s_keys) >= 0 )
+				nvals.push(Number(this))
+		})
+
+		var n = nvals[0]
+
+		if (!a[1])
+			a[1] = ((s[n] * 2) / n) - a[n]
+		d = (a[n] - a[1]) / (n-1)
+		$in_d.val(d);
+		return Number(d)
 	}
 
 	function checkSequence() {
@@ -118,18 +146,22 @@ $(function() {
 		val = $in_s_val.val()
 		if (n && val) {
 			printConfirmation('in-s-value', 'S<span class="subset">'+n+'</span> = ',val)
-			return [n,val]
+			return [Number(n),Number(val)]
 		}
 	}
 
 	function checkAofN() {
+		var a_val = {}
 		var n, val;
-		n = $in_a.val()
-		val = $in_a_val.val()
-		if (n && val) {
-			printConfirmation('in-a-value', 'a<span class="subset">'+n+'</span> = ',val)
-			return [n,val]
-		}
+		$('.in-a-of-n').each(function(x) {
+			n = $($('.in-a-of-n')[x]).val()
+			val = $($('.in-a-of-n-value')[x]).val()
+			if (n && val) {
+				printConfirmation('in-a-value-'+val+'-'+n, 'a<span class="subset">'+n+'</span> = ',val)
+				a_val[n] = Number(val)
+			}
+		})
+		return a_val
 	}
 
 	function checkA1ofN(val) {
@@ -148,5 +180,13 @@ $(function() {
 		$('#value-confirmation').append("<li id='"+id+"'>"+vanity+""+value+"</li>")
 	}
 
+	function addMoreN(){
+		var dup = $('.a-of-n-wrapper').last().html()
+		$('.a-of-n-wrapper').last().append('<div class="a-of-n-wrapper">' + dup + '</div>')
+		$('.in-a-of-n').unbind('change')
+		$('.in-a-of-n-value').unbind('change')
+		$('.in-a-of-n').on('change', function() { checkAofN();})
+		$('.in-a-of-n-value').on('change', function() { checkAofN();})
+	}
 
 })
