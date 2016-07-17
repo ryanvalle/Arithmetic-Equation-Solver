@@ -75,7 +75,7 @@ $(function() {
 
 	function printSolution(sol,n,variable) {
 		$solution.html('')
-		if (typeof(sol) != NaN) {
+		if (!isNaN(sol)) {
 			var print = '<div class="alert alert-success">';
 			print += variable
 			print += '<span class="subset">' + n + '</span>'
